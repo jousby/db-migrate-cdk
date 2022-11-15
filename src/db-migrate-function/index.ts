@@ -26,29 +26,29 @@ export interface DbMigrateEvent {
    * The details stored in this secret are how we build the connection
    * string to use to reach the target database.
    */
-  dbSecretId: string;
+  readonly dbSecretId: string;
 
   /**
    * The initial database to connect to.
    */
-  dbName: string;
+  readonly dbName: string;
 
   /**
    * The name of the S3 bucket that contains the sql migration scripts
    * to use.
    */
-  dbMigrationsBucket: string;
+  readonly dbMigrationsBucket: string;
 
   /**
    * The 'migrate' command that we want to pass to the 'migrate' cli.
    */
-  migrateCommand: string;
+  readonly migrateCommand: string;
 
   /**
    * Not used by the function itself, but a change in the hash will trigger the
    * function to be called.
    */
-  migrationFilesHash: string;
+  readonly migrationFilesHash: string;
 }
 
 export interface DbMigrateResponse {

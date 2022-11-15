@@ -14,39 +14,8 @@ import {
   aws_secretsmanager as secrets_manager,
 } from 'aws-cdk-lib';
 import { Construct, IDependable } from 'constructs';
+import { DbMigrateEvent } from './db-migrate-function';
 
-export interface DbMigrateEvent {
-  /**
-   * The id of the AWS Secrets Manager secret that contains both the
-   * database credentials and the database connection details. It is
-   * expected to conform to the RDS DatabaseSecret type modeled above.
-   * The details stored in this secret are how we build the connection
-   * string to use to reach the target database.
-   */
-  dbSecretId: string;
-
-  /**
-   * The initial database to connect to.
-   */
-  dbName: string;
-
-  /**
-   * The name of the S3 bucket that contains the sql migration scripts
-   * to use.
-   */
-  dbMigrationsBucket: string;
-
-  /**
-   * The 'migrate' command that we want to pass to the 'migrate' cli.
-   */
-  migrateCommand: string;
-
-  /**
-   * Not used by the function itself, but a change in the hash will trigger the
-   * function to be called.
-   */
-  migrationFilesHash: string;
-}
 
 /**
  * Defines the possible commands you can pass to the 'migrate' cli
@@ -90,12 +59,12 @@ export interface DbMigrateProps {
    * The target RDS instance or Aurora cluster to run the migrations
    * against.
    */
-  targetDatabaseInstance: rds.DatabaseInstance | rds.DatabaseCluster;
+  readonly targetDatabaseInstance: rds.DatabaseInstance | rds.DatabaseCluster;
 
   /**
    * The target database in the target instance/cluster to initially connect to.
    */
-  targetDatabaseName: string;
+  readonly targetDatabaseName: string;
 
   /**
    * If you want to use an alternate set of db credentials to access the
@@ -103,7 +72,7 @@ export interface DbMigrateProps {
    *
    * @default targetDatabase.secret
    */
-  dbCredentialsSecret?: secrets_manager.ISecret;
+  readonly dbCredentialsSecret?: secrets_manager.ISecret;
 
   /**
    * The local folder containing the sql migration scripts to be used by
@@ -111,24 +80,24 @@ export interface DbMigrateProps {
    * S3 where they will be access by the lambda function running the migrate
    * cli.
    */
-  migrationsFolder: string;
+  readonly migrationsFolder: string;
 
   /**
    * The migrate command that the 'migrate cli' will run.
    * @default DbMigrateCommand.UP
    */
-  migrateCommand?: DbMigrateCommand;
+  readonly migrateCommand?: DbMigrateCommand;
 
   /**
    * Some migrate commands accept an optional second argument for the target
    * schema version to move to.
    */
-  targetSchemaVersion?: number;
+  readonly targetSchemaVersion?: number;
 
   /**
    * The vpc to define the custom resource lambda function in.
    */
-  vpc: ec2.IVpc;
+  readonly vpc: ec2.IVpc;
 
   /**
    * Which subnets from the VPC to place the lambda functions in.
@@ -138,39 +107,39 @@ export interface DbMigrateProps {
    *
    * @default - the Vpc default strategy if not specified
    */
-  subnetSelection?: ec2.SubnetSelection;
+  readonly subnetSelection?: ec2.SubnetSelection;
 
   /**
    * Security groups to attach to the lambda function.
    *
    * @default - a dedicated security group is created for each function.
    */
-  securityGroups?: ec2.ISecurityGroup[];
+  readonly securityGroups?: ec2.ISecurityGroup[];
 
   /**
    * @default Duration.minutes(14)
    */
-  eventHandlerTimeout?: Duration;
+  readonly eventHandlerTimeout?: Duration;
 
   /**
    * @default Retention.ONE_YEAR
    */
-  eventHandlerLogRetention?: logs.RetentionDays;
+  readonly eventHandlerLogRetention?: logs.RetentionDays;
 
   /**
    * @default 128
    */
-  eventHandlerMemorySize?: number;
+  readonly eventHandlerMemorySize?: number;
 
   /**
    * @default Duration.minutes(14)
    */
-  providerTotalTimeout?: Duration;
+  readonly providerTotalTimeout?: Duration;
 
   /**
    * @default Retention.ONE_YEAR
    */
-  providerLogRetention?: logs.RetentionDays;
+  readonly providerLogRetention?: logs.RetentionDays;
 }
 
 /**
@@ -182,8 +151,8 @@ export interface DbMigrateProps {
  */
 export class DbMigrate extends Construct implements ec2.IConnectable, iam.IGrantable {
   public readonly response: string;
-  public connections: ec2.Connections;
-  public grantPrincipal: iam.IPrincipal;
+  public readonly connections: ec2.Connections;
+  public readonly grantPrincipal: iam.IPrincipal;
 
   private resource: custom.AwsCustomResource;
   private onEventHandler: lambda.DockerImageFunction;
