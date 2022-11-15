@@ -163,6 +163,15 @@
       "steps": [
         {
           "spawn": "docgen"
+        },
+        {
+          "exec": "rm -rf ./lib/db-migrate-function"
+        },
+        {
+          "exec": "cp -r ./src/db-migrate-function ./lib"
+        },
+        {
+          "exec": "rm -rf ./lib/db-migrate-function/node_modules"
         }
       ]
     },

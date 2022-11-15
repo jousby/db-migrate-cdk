@@ -18,4 +18,7 @@ const project = new awscdk.AwsCdkConstructLibrary({
   // description: undefined,  /* The description is just a string that helps people understand the purpose of the package. */
   // packageName: undefined,  /* The "name" in package.json. */
 });
+project.postCompileTask.exec('rm -rf ./lib/db-migrate-function');
+project.postCompileTask.exec('cp -r ./src/db-migrate-function ./lib');
+project.postCompileTask.exec('rm -rf ./lib/db-migrate-function/node_modules');
 project.synth();
