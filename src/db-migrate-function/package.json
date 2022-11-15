@@ -1,0 +1,17 @@
+{
+  "name": "db-migrate-function",
+  "version": "1.0.0",
+  "description": "RDS initialization implementation in Node.js",
+  "keywords": [],
+  "author": "",
+  "scripts": {
+    "build": "esbuild index.ts --bundle --minify --sourcemap --platform=node --target=es2020 --outfile=dist/index.js"
+  },
+  "dependencies": {
+    "@aws-sdk/client-secrets-manager": "^3.192.0",
+    "@types/aws-lambda": "^8.10.108"
+  },
+  "devDependencies": {
+    "esbuild": "^0.15.12"
+  }
+}
