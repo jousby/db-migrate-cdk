@@ -1,13 +1,14 @@
 # DB Migrate CDK
+[![Docs](https://img.shields.io/badge/Construct%20Hub-db--migrate--cdk-orange)](https://constructs.dev/packages/db-migrate-cdk)
+[![release](https://github.com/jousby/db-migrate-cdk/actions/workflows/release.yml/badge.svg)](https://github.com/jousby/db-migrate-cdk/actions/workflows/release.yml)
+![npm](https://img.shields.io/npm/dt/db-migrate-cdk?label=npm&color=blueviolet)
 
 Apply schema evolutions/database migrations using the golang [migrate](https://github.com/golang-migrate/migrate)
 cli tool in your CDK stack. The key pattern this enables is the ability to 
 initialise (and update) the schema after the database is provisioned but before 
 your application is deployed and tries to connect. 
 
-[![View on Construct Hub](https://constructs.dev/badge?package=db-migrate-cdk)](https://constructs.dev/packages/db-migrate-cdk)
-
-**NOTE**: 'migrate' supports a number of [database types](https://github.com/golang-migrate/migrate#databases) 
+**NOTE**: migrate supports a number of [database types](https://github.com/golang-migrate/migrate#databases) 
 but currently this construct only supports Amazon RDS Instances (mysql or postgres) and Amazon RDS Aurora 
 Clusters (mysql or postgres).
 
@@ -25,7 +26,9 @@ For more details checkout:
 
 ## Usage
 
-1. Create your ordered sequence of migration scripts in a folder in your project - [see migrations guide](https://github.com/golang-migrate/migrate/blob/master/MIGRATIONS.md). eg in <project>/migrations you might create the file '1_initialize_schema.up.sql' that contains:
+### Step 1
+
+Create your ordered sequence of migration scripts in a folder in your project - [see migrations guide](https://github.com/golang-migrate/migrate/blob/master/MIGRATIONS.md). eg in \<project_base\>/migrations' you might create the file '1_initialize_schema.up.sql' that contains:
 
 ```sql
 CREATE TABLE CUSTOMERS(
@@ -37,7 +40,9 @@ CREATE TABLE CUSTOMERS(
 );
 ```
 
-2. In your CDK Stack you create a 'DBMigrate' construct that looks to run
+### Step 2
+
+In your CDK Stack you create a 'DBMigrate' construct that looks to run
 the migration scripts created in step 1 against an RDS/Aurora database that
 has been provisioned earlier in the CDK Stack. 
 
@@ -52,7 +57,7 @@ has been provisioned earlier in the CDK Stack.
 ```
 
 <details>
-  <summary>A complete example</summary>
+  <summary>A more complete example</summary>
 
 ```typescript
 import {
@@ -78,10 +83,6 @@ export class DbMigrateTestStack extends Stack {
 
     // Initial database to create in our database instance
     const dbName = 'init'
-
-    // ************************************************************************
-    // Mysql RDS Instance Test
-    // ************************************************************************
 
     // Mysql RDS instance
     const mysqlRdsInstance = new rds.DatabaseInstance(this, 'MysqlRdsMigrateInstance', {
