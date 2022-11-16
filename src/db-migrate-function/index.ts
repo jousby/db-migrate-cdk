@@ -143,15 +143,12 @@ const buildConnectionString = (
   switch (engine) {
     case 'mysql':
       return `mysql://${username}:${password}@tcp(${host}:${port})/${dbName}`;
-      break;
     case 'postgres':
       return `postgres://${username}:${password}@${host}:${port}/${dbName}`;
-      break;
     default:
       throw new Error(
         `Unsupported (or not yet implemented) database engine for migrate target: ${databaseSecret.engine}`,
       );
-      break;
   }
 };
 
@@ -169,11 +166,13 @@ function runMigrate(
     let output = '';
     childProcess.stdout?.on('data', (data: string) => {
       console.log(data);
+      output += data;
     });
 
     // migrate currently sends all output to stderr :(
     // https://github.com/golang-migrate/migrate/issues/364
     // Revisit in v5 or whenever the above gets fixed.
+    // Ideally we want to log these as errors (console.error(data))
     childProcess.stderr?.on('data', (data: string) => {
       console.log(data);
       output += data;

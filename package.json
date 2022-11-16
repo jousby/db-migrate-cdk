@@ -1,5 +1,6 @@
 {
   "name": "db-migrate-cdk",
+  "description": "L3 CDK construct to run golang migrate database migrations",
   "repository": {
     "type": "git",
     "url": "https://github.com/jousby/db-migrate-cdk.git"
@@ -69,7 +70,16 @@
     "@types/aws-lambda"
   ],
   "keywords": [
-    "cdk"
+    "aurora",
+    "cdk",
+    "database",
+    "evolutions",
+    "migrate",
+    "migrations",
+    "mysql",
+    "postgres",
+    "rds",
+    "schema"
   ],
   "main": "lib/index.js",
   "license": "Apache-2.0",
