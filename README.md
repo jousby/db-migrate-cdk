@@ -7,7 +7,7 @@ your application is deployed and tries to connect.
 
 [![View on Construct Hub](https://constructs.dev/badge?package=db-migrate-cdk)](https://constructs.dev/packages/db-migrate-cdk)
 
-NOTE: 'migrate' supports a number of [database types](https://github.com/golang-migrate/migrate#databases) 
+**NOTE**: 'migrate' supports a number of [database types](https://github.com/golang-migrate/migrate#databases) 
 but currently this construct only supports Amazon RDS Instances (mysql or postgres) and Amazon RDS Aurora 
 Clusters (mysql or postgres).
 
@@ -25,7 +25,7 @@ For more details checkout:
 
 ## Usage
 
-Step 1. Create your ordered sequence of migration scripts in a folder in your project - [see migrations guide](https://github.com/golang-migrate/migrate/blob/master/MIGRATIONS.md). eg in <project>/migrations you might create the file '1_initialize_schema.up.sql' that contains:
+1. Create your ordered sequence of migration scripts in a folder in your project - [see migrations guide](https://github.com/golang-migrate/migrate/blob/master/MIGRATIONS.md). eg in <project>/migrations you might create the file '1_initialize_schema.up.sql' that contains:
 
 ```sql
 CREATE TABLE CUSTOMERS(
@@ -37,9 +37,9 @@ CREATE TABLE CUSTOMERS(
 );
 ```
 
-Step 2. In your CDK Stack you create a 'DBMigrate' construct that looks to run
+2. In your CDK Stack you create a 'DBMigrate' construct that looks to run
 the migration scripts created in step 1 against an RDS/Aurora database that
-has been provisioned early in the CDK Stack. 
+has been provisioned earlier in the CDK Stack. 
 
 ```typescript
   // Run our 'migrate' based schema setup on our mysql instance
@@ -50,8 +50,10 @@ has been provisioned early in the CDK Stack.
     migrationsFolder: './migrations',
   })
 ```
+
 <details>
-<summary>A complete example</summary>
+  <summary>A complete example</summary>
+
 ```typescript
 import {
   Stack,
