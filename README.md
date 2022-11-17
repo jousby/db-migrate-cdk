@@ -55,7 +55,7 @@ has been provisioned earlier in the CDK Stack.
     migrationsFolder: './migrations',
   })
 ```
-
+<br/>
 <details>
   <summary>A more complete example</summary>
 
@@ -112,6 +112,8 @@ export class DbMigrateTestStack extends Stack {
 ```
 
 </details>
+<br/>
+
 
 ## Limitations / Other Options
 
@@ -125,6 +127,16 @@ These constraints should be fine for a large number of usecases. However if not 
 * Running 'migrate' as part of the boot sequence in your application on the compute that drives your application
 * Running 'migrate' manually against the target database to do exceptional case scenarios (i.e complex DML changes on large volumes of data that might take over 15 mins to run)
 * Some hybrid model of the options above
+
+## Credits
+
+The following blog posts were helpful in pulling this construct together:
+
+* [DB Schema change management with the CDK Custom Resources - Florian Chazel](https://medium.com/i-love-my-local-farmer-engineering-blog/db-schema-change-management-with-the-cdk-custom-resources-f107625de0ab)
+
+* [Use aws cdk to initialize amazon rds instances -  Rolando Santamaria Maso, Ramy Nasreldin, Prasanna Tuladhar](https://aws.amazon.com/blogs/infrastructure-and-automation/use-aws-cdk-to-initialize-amazon-rds-instances/)
+
+* [AWS lambda database migrations - David Koblas](https://www.skitoy.com/p/aws-lambda-database-migrations/644/)
 
 ## License
 
