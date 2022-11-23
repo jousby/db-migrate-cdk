@@ -27,7 +27,7 @@ As part of the CDK stack that provisions your database:
 
 To have success with this construct you need to understand how db schema evolution/migration tools like [migrate](https://github.com/golang-migrate/migrate), [flyway](https://flywaydb.org/) and [liquidbase](https://www.liquibase.org/) work. In short they apply an ordered sequence of sql scripts (migrations/evolutions)
 to a target database. The tool maintains a table in the target database to keep track of what 
-the highest applied script is. Each time it runs it checks to see if there a 'higher' ordered
+the highest applied script is. Each time it runs it checks to see if there is a 'higher' ordered
 script it can apply and updates its watermark accordingly. 
 
 For more details checkout:
