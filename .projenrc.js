@@ -1,5 +1,5 @@
 const { awscdk } = require('projen');
-const cdkVersion = '2.50.0';
+const cdkVersion = '2.51.1';
 
 const project = new awscdk.AwsCdkConstructLibrary({
   author: 'James Ousby',

@@ -12,6 +12,17 @@ your application is deployed and tries to connect.
 but currently this construct only supports Amazon RDS Instances (mysql or postgres) and Amazon RDS Aurora 
 Clusters (mysql or postgres).
 
+## Cool things you can do with this construct
+
+As part of the CDK stack that provisions your database:
+* Create an initial database schema
+* Continually update the database schema on each 'cdk deploy'
+* Create new database users, roles and manage permissions
+* Populate tables with static/ref data
+* Populate tables with test data
+* Clean and repopulate table data to a known state on each 'cdk deploy'
+* Drop the entire schema and recreate on each 'cdk deploy'
+
 ## Important Context
 
 To have success with this construct you need to understand how db schema evolution/migration tools like [migrate](https://github.com/golang-migrate/migrate), [flyway](https://flywaydb.org/) and [liquidbase](https://www.liquibase.org/) work. In short they apply an ordered sequence of sql scripts (migrations/evolutions)
