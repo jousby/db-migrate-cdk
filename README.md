@@ -12,6 +12,12 @@ your application is deployed and tries to connect.
 but currently this construct only supports Amazon RDS Instances (mysql or postgres) and Amazon RDS Aurora 
 Clusters (mysql or postgres).
 
+## Construct Design
+
+It copies the sql scripts in your local project to an S3 bucket. It uses an AWS Custom Resource to trigger a Lambda function call that takes the scripts from S3 and runs them against the target database. The lambda function is packaged up as a docker image with the 'migrate' cli bundled in. 
+
+![db-migrate-cdk design](./docs/db-migrate-cdk.png)
+
 ## Cool things you can do with this construct
 
 As part of the CDK stack that provisions your database:
